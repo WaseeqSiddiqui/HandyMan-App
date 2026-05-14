@@ -8,14 +8,16 @@ workflows:
       flutter: default
       xcode: latest
       cocoapods: default
-      groups:
-        - app_store_credentials
     scripts:
       - name: Set up keychain to be used for codesigning using Codemagic CLI 'keychain' command
         script: |
           keychain initialize
       - name: Fetch signing files
         script: |
+          # Generate a fresh RSA private key directly on the build machine
+          openssl genrsa -out /tmp/cert_key.pem 2048
+          export CERTIFICATE_PRIVATE_KEY="$(cat /tmp/cert_key.pem)"
+
           app-store-connect fetch-signing-files "com.ksa.handyman" \
             --type IOS_APP_STORE \
             --create
