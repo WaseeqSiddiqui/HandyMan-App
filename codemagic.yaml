@@ -1,0 +1,51 @@
+workflows:
+  ios-release:
+    name: iOS Release Build
+    instance_type: mac_mini_m1
+    environment:
+      flutter: default
+      xcode: latest
+      cocoapods: default
+      groups:
+        - app_store_credentials # You need to create this group in Codemagic UI
+    scripts:
+      - name: Set up keychain to be used for codesigning using Codemagic CLI 'keychain' command
+        script: |
+          keychain initialize
+      - name: Fetch signing files
+        script: |
+          app-store-connect fetch-signing-files "com.ksa.handyman" \
+            --type IOS_APP_STORE \
+            --create
+      - name: Use system default keychain
+        script: |
+          keychain add-certificates
+      - name: Set up code signing settings on Xcode project
+        script: |
+          xcode-project use-profiles
+      - name: Get Flutter packages
+        script: |
+          flutter packages pub get
+      - name: Install pods
+        script: |
+          find . -name "Podfile" -execdir pod install \;
+      - name: Flutter build ipa and automatic versioning
+        script: |
+          flutter build ipa --release \
+            --export-options-plist=/Users/builder/export_options.plist
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - flutter_drive.log
+    publishing:
+      email:
+        recipients:
+          - your_email@example.com # Replace with your email to get build status
+        notify:
+          success: true
+          failure: true
+      app_store_connect:
+        auth: integration
+
+      # If you want to automatically submit to TestFlight, uncomment below
+      # submit_to_testflight: true 
