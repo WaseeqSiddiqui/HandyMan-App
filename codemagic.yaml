@@ -3,13 +3,13 @@ workflows:
     name: iOS Release Build
     instance_type: mac_mini_m1
     integrations:
-      app_store_connect: "HandymanKey" # Yahan apni API Key ka naam likhein jo aapne Codemagic mein diya hai
+      app_store_connect: "HandymanKey"
     environment:
       flutter: default
       xcode: latest
       cocoapods: default
       groups:
-        - app_store_credentials # You need to create this group in Codemagic UI
+        - app_store_credentials
     scripts:
       - name: Set up keychain to be used for codesigning using Codemagic CLI 'keychain' command
         script: |
@@ -42,12 +42,9 @@ workflows:
     publishing:
       email:
         recipients:
-          - your_email@example.com # Replace with your email to get build status
+          - waseeqsaad@gmail.com
         notify:
           success: true
           failure: true
       app_store_connect:
         auth: integration
-
-      # If you want to automatically submit to TestFlight, uncomment below
-      # submit_to_testflight: true 
