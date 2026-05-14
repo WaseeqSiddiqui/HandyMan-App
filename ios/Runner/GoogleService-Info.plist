@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>1077866533312-kk0n1msi88oncjrtnv6dgbcu7ql7qqcj.apps.googleusercontent.com</string>
+	<string>1077866533312-qeesdnr3imqc929cg3nt3gkd1fl3jrqn.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1077866533312-kk0n1msi88oncjrtnv6dgbcu7ql7qqcj</string>
+	<string>com.googleusercontent.apps.1077866533312-qeesdnr3imqc929cg3nt3gkd1fl3jrqn</string>
 	<key>ANDROID_CLIENT_ID</key>
 	<string>1077866533312-24gi9ru3h3198tpe4kld48dte3gn0n54.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.handyman.customerApp</string>
+	<string>com.ksa.handyman</string>
 	<key>PROJECT_ID</key>
 	<string>handyman-3308d</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1077866533312:ios:2bbd042c260ab335b77825</string>
+	<string>1:1077866533312:ios:8f32fd3984b79d0ab77825</string>
 </dict>
 </plist>
