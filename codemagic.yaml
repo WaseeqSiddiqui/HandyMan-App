@@ -2,6 +2,8 @@ workflows:
   ios-release:
     name: iOS Release Build
     instance_type: mac_mini_m1
+    integrations:
+      app_store_connect: "HandymanKey" # Yahan apni API Key ka naam likhein jo aapne Codemagic mein diya hai
     environment:
       flutter: default
       xcode: latest
