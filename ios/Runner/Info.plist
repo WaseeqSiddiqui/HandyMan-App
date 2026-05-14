@@ -18,13 +18,13 @@
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
-    <key>NSCameraUsageDescription</key>
-    <string>We need access to the camera to take profile photos.</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-    <string>We need access to save invoices</string>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>We need access to share invoices</string>
 	<string>6.0</string>
+	<key>NSCameraUsageDescription</key>
+	<string>We need access to the camera to take profile photos.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>We need access to save invoices</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access to share invoices</string>
 	<key>CFBundleName</key>
 	<string>HANDYMAN</string>
 	<key>CFBundlePackageType</key>
