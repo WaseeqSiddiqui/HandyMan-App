@@ -61,11 +61,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyD1nFOXBXlj7otMHIyJILROk0BDAeiFYH4',
-    appId: '1:1077866533312:ios:a5e9fcfa387505a4b77825',
+    appId: '1:1077866533312:ios:8f32fd3984b79d0ab77825',
     messagingSenderId: '1077866533312',
     projectId: 'handyman-3308d',
     storageBucket: 'handyman-3308d.firebasestorage.app',
-    iosBundleId: 'com.handyman.customerApp',
+    iosBundleId: 'com.ksa.handyman',
   );
 
   static const FirebaseOptions android = FirebaseOptions(

@@ -35,27 +35,25 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Firebase
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  try {
+    // Initialize Firebase
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
 
-  // App Check temporarily disabled for testing (Error 39 diagnosis)
-  // If Error 39 stops after this, fix = register debug token in Firebase Console
-  // await FirebaseAppCheck.instance.activate(
-  //   androidProvider: kDebugMode ? AndroidProvider.debug : AndroidProvider.playIntegrity,
-  //   appleProvider: kDebugMode ? AppleProvider.debug : AppleProvider.deviceCheck,
-  // );
+    // Initialize localization for Arabic dates
+    await initializeDateFormatting('ar', null);
+    await initializeDateFormatting('en', null);
 
-  // Initialize localization for Arabic dates
-  await initializeDateFormatting('ar', null);
-  await initializeDateFormatting('en', null);
+    // Initialize Local Notifications
+    await NotificationService().init();
 
-  // Initialize Local Notifications
-  await NotificationService().init();
-
-  // Set Background Handler
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    // Set Background Handler
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  } catch (e) {
+    debugPrint("CRITICAL ERROR DURING INITIALIZATION: $e");
+    // We still call runApp so the app doesn't stay on a blank screen.
+  }
 
   runApp(const CustomerApp());
 }
@@ -252,7 +250,8 @@ class _CustomerAppState extends State<CustomerApp> {
             },
           );
         }
-        return child!;
+        // Safely return child or a placeholder if child is null
+        return child ?? const Scaffold(body: Center(child: CircularProgressIndicator()));
       },
       home: _buildHome(),
     );
