@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'dart:io' show Platform;
 import '../../gen_l10n/app_localizations.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/validators.dart';
@@ -184,6 +186,30 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
       }
     } catch (e) {
       debugPrint('Google Login Error: $e');
+      final l10n = AppLocalizations.of(context)!;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.genericError)),
+      );
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  Future<void> _handleAppleLogin() async {
+    if (_isLoading) return;
+
+    setState(() => _isLoading = true);
+    try {
+      final authService = FirebaseAuthService();
+      final userCredential = await authService.signInWithApple();
+      
+      if (userCredential?.user != null && widget.onGoogleSubmit != null) {
+        widget.onGoogleSubmit!(userCredential!.user!);
+      }
+    } catch (e) {
+      debugPrint('Apple Login Error: $e');
       final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(l10n.genericError)),
@@ -621,6 +647,49 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
                     ),
                   ),
                 ),
+                
+                if (!kIsWeb && Platform.isIOS) ...[
+                  const SizedBox(height: 16),
+                  // Apple Login Button
+                  Container(
+                    width: double.infinity,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: _isLoading ? null : _handleAppleLogin,
+                        borderRadius: BorderRadius.circular(20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.apple, color: Colors.white, size: 28),
+                            const SizedBox(width: 8),
+                            const Text(
+                              'Continue with Apple',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 0.2,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
                 const SizedBox(height: 20),
               ],
             ),

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:flutter/foundation.dart';
 
 class FirebaseAuthService {
@@ -136,6 +137,36 @@ class FirebaseAuthService {
       return userCredential;
     } catch (e) {
       debugPrint('GOOGLE SIGN IN FAILED: $e');
+      rethrow;
+    }
+  }
+
+  // Apple Sign-In logic
+  Future<UserCredential?> signInWithApple() async {
+    try {
+      debugPrint('=== APPLE SIGN IN STARTED ===');
+      
+      // Trigger the authentication flow
+      final AuthorizationCredentialAppleID appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
+
+      // Create a new credential
+      final OAuthProvider oAuthProvider = OAuthProvider('apple.com');
+      final AuthCredential credential = oAuthProvider.credential(
+        idToken: appleCredential.identityToken,
+        accessToken: appleCredential.authorizationCode,
+      );
+
+      // Once signed in, return the UserCredential
+      final userCredential = await _auth.signInWithCredential(credential);
+      debugPrint('APPLE SIGN IN SUCCESSFUL! UID: ${userCredential.user?.uid}');
+      return userCredential;
+    } catch (e) {
+      debugPrint('APPLE SIGN IN FAILED: $e');
       rethrow;
     }
   }
