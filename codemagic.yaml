@@ -5,6 +5,8 @@ workflows:
     integrations:
       app_store_connect: "HandymanKey"
     environment:
+      groups:
+        - signing
       flutter: default
       xcode: latest
       cocoapods: default
