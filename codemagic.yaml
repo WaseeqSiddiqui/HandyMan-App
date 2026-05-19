@@ -16,8 +16,10 @@ workflows:
           keychain initialize
       - name: Fetch signing files
         script: |
+          export CERTIFICATE_PRIVATE_KEY="$(cat ios_cert_key)"
           app-store-connect fetch-signing-files "com.ksa.handyman" \
             --type IOS_APP_STORE \
+            --certificate-key=@file:ios_cert_key \
             --create
       - name: Use system default keychain
         script: |
